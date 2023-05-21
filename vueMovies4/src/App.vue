@@ -3,9 +3,6 @@ import {ref} from "vue";
 import axios from "axios";
 
 const movie = ref("");
-
-const getMovie = async () => {
-  const data = (await axios.get(`https://api.themoviedb.org/3/movie/${movie.value}?api_key=${import.meta.env.VITE_TMDB_API_KEY}&language=en-US&adult=false&append_to_response=videos`)).data;
 </script>
 
 <template>

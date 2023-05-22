@@ -1,6 +1,7 @@
 <script setup>
 import axios from "axios";
 import { ref } from "vue";
+// import { TMDB_API_KEY } from "./components//key.js";
 
 const movie = ref(null);
 const movieData = ref(false);
@@ -14,62 +15,105 @@ const getMovie = async () => {
       },
     })
   ).data;
-
-  computed: {
-    getTrailerKey() => {
-      const trailer = this.movieData.videos.results.find((trailer) => trailer.type === 'Trailer');
-      return trailer ? trailer.key : '';
-    },
-  },
-  };
+};
 </script>
 
 <template>
-  <header class="movie-container">
-    <select v-model="movie">
-      <option value="385687">Fast X</option>
-      <option value="804150">Cocaine Bear</option>
-      <option value="980078">Winnie the Pooh: Blood and Honey</option>
-      <option value="389">12 Angry Men</option>
-      <option value="13">Forrest Gump</option>
-      <option value="505642">Black Panther: Wakanda Forever</option>
-      <option value="315162">Puss in Boots: The Last Wish</option>
-      <option value="296271">The Devil Conspiracy</option>
-      <option value="502356">The Super Mario Bros. Movie</option>
-      <option value="76600">Avatar: The Way of Water</option>
-    </select>
-    <button @click="getMovie">Get</button>
-  </header>
+  <h1 class="title">Movie Mania</h1>
+  <div class="movie-container">
+    <header>
+      <div class="headBar">
+        <select v-model="movie">
+          <option disabled selected value="">Select Movie</option>
+          <option value="385687">Fast X</option>
+          <option value="804150">Cocaine Bear</option>
+          <option value="980078">Winnie the Pooh: Blood and Honey</option>
+          <option value="389">12 Angry Men</option>
+          <option value="13">Forrest Gump</option>
+          <option value="505642">Black Panther: Wakanda Forever</option>
+          <option value="315162">Puss in Boots: The Last Wish</option>
+          <option value="296271">The Devil Conspiracy</option>
+          <option value="502356">The Super Mario Bros. Movie</option>
+          <option value="76600">Avatar: The Way of Water</option>
+        </select>
+        <button @click="getMovie">Get</button>
+      </div>
+    </header>
 
-  <div class="movieTile">
-    <div v-if="movieData" class="moviePoster">
-      <img :src="`https://image.tmdb.org/t/p/w500${movieData.poster_path}`" />
-    </div>
-  </div>
+    <div class="movieTile">
+      <div v-if="movieData" class="moviePoster">
+        <img :src="`https://image.tmdb.org/t/p/w500${movieData.poster_path}`" />
+      </div>
 
-  <div v-if="movieData" class="movieTrailer">
-    <iframe v-if="trailer" :src="`https://www.youtube.com/embed/${movieData.videos.results.filter((trailer) => trailer.type === 'Trailer')[0]
-    .key}`"></iframe>
-  </div>
+      <!-- <div v-if="movieData" class="movieTrailer">
+        <iframe :src="`https://www.youtube.com/embed/${movieData.videos.filter((vid) => vid.type === 'Trailer')[0].key}`"></iframe>
+      </div> -->
 
-  <div v-if="movieData">
-    <h1>Movie Title: {{ movieData.title }}</h1>
-    <h3>Release Date: {{ movieData.release_date }}</h3>
-    <h4>{{ movieData.overview }}</h4>
-    <h4>{{ movieData.revenue }}</h4>
-    <h4>{{ movieData.runtime }}</h4>
-    <h4>{{ movieData.vote_average }}</h4>
-    <h4>{{ movieData.vote_count }}</h4>
-    <h4>{{ movieData.popularity }}</h4>
+
+      <div v-if="movieData" class="movieInfo">
+        <h1>Movie Title: {{ movieData.title }}</h1>
+        <h3>Release Date: {{ movieData.release_date }}</h3>
+        <h4> Description: {{ movieData.overview }}</h4>
+        <h4>Total Revenue: {{ movieData.revenue }}</h4>
+        <h4>Movie Length: {{ movieData.runtime }}</h4>
+        <h4>Average Rating: {{ movieData.vote_average }}</h4>
+        <h4>Based on {{ movieData.vote_count }} ratings</h4>
+        <h4>Polularity Rating: {{ movieData.popularity }}</h4>
+      </div>
+      </div>
   </div>
 </template>
 
 <style scoped>
-/* * {
+
+* {
   box-sizing: border-box;
   padding: 0;
-} */
+  margin: 0%;
+  background-color: black;
+}
+
+h1 {
+  font-weight: bold;
+}
+
+.title {
+  display: grid;
+  justify-content: center;
+  font-size: 5vw;
+  justify-content: center;
+  background-color: rgb(52, 70, 86);
+}
+
 .movie-container {
-  vertical-align: top;
+  display: grid;
+  padding: 0%;
+  justify-content: center;
+}
+
+.headBar {
+  display: grid;
+  justify-content: center;
+  padding-bottom: 20px;
+  padding-top: 20px;
+}
+
+img {
+  margin-top: 7%;
+  width: 350px;
+  height: 500px;
+}
+
+.movieTile {
+  display: flex;
+  margin: 5%;
+  justify-content: top;
+  font-size: small;
+  background-image: url(`https://image.tmdb.org/t/p/w500${movieData.poster_path}`);
+}
+
+.movieInfo {
+  padding: 20px;
+  
 }
 </style>

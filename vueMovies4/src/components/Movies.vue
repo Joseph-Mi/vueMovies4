@@ -1,21 +1,19 @@
 <script setup>
 import axios from "axios";
 import { ref } from "vue";
-// import { TMDB_API_KEY } from "./components//key.js";
+const TMDB_API_KEY = `fbb6ba03bbd1aaeb92c52f989ea8698d`;
 
 const movie = ref(null);
 const movieData = ref(false);
 
 const getMovie = async () => {
   movieData.value = (
-    await axios.get(`https:api.themoviedb.org/3/movie/${movie.value}}`, {
-      params: {
-        api_key: "fbb6ba03bbd1aaeb92c52f989ea8698d",
-        append_to_response: "videos",
-      },
-    })
+    await axios.get(`https:api.themoviedb.org/3/movie/${movie.value}?api_key=${TMDB_API_KEY}&language=en-US&adult=false&append_to_response=videos`)
   ).data;
 };
+
+// const trailers = movieData.resuls.filter((trailer) => trailer.type === `Trailer`).at(0).key;
+
 </script>
 
 <template>
@@ -46,26 +44,28 @@ const getMovie = async () => {
       </div>
 
       <!-- <div v-if="movieData" class="movieTrailer">
-        <iframe :src="`https://www.youtube.com/embed/${movieData.videos.filter((vid) => vid.type === 'Trailer')[0].key}`"></iframe>
+        <iframe
+          :src="`https://www.youtube.com/embed/${trailers}`"
+        ></iframe>
       </div> -->
 
-
-      <div v-if="movieData" class="movieInfo">
-        <h1>Movie Title: {{ movieData.title }}</h1>
-        <h3>Release Date: {{ movieData.release_date }}</h3>
-        <h4> Description: {{ movieData.overview }}</h4>
-        <h4>Total Revenue: {{ movieData.revenue }}</h4>
-        <h4>Movie Length: {{ movieData.runtime }}</h4>
-        <h4>Average Rating: {{ movieData.vote_average }}</h4>
-        <h4>Based on {{ movieData.vote_count }} ratings</h4>
-        <h4>Polularity Rating: {{ movieData.popularity }}</h4>
+      <div class="notPoster">
+        <div v-if="movieData" class="movieInfo">
+          <h1>Movie Title: {{ movieData.title }}</h1>
+          <h3>Release Date: {{ movieData.release_date }}</h3>
+          <h4>Description: {{ movieData.overview }}</h4>
+          <h4>Total Revenue: ${{ movieData.revenue }}</h4>
+          <h4>Movie Length: {{ movieData.runtime }} mins</h4>
+          <h4>Average Rating: {{ movieData.vote_average }}/10</h4>
+          <h4>Based on {{ movieData.vote_count }} ratings</h4>
+          <h4>Polularity Rating: {{ movieData.popularity }}</h4>
+        </div>
       </div>
-      </div>
+    </div>
   </div>
 </template>
 
 <style scoped>
-
 * {
   box-sizing: border-box;
   padding: 0;
@@ -82,7 +82,7 @@ h1 {
   justify-content: center;
   font-size: 5vw;
   justify-content: center;
-  background-color: rgb(52, 70, 86);
+  background-color: rgb(89, 3, 16);
 }
 
 .movie-container {
@@ -95,7 +95,7 @@ h1 {
   display: grid;
   justify-content: center;
   padding-bottom: 20px;
-  padding-top: 20px;
+  padding-top: 10px;
 }
 
 img {
@@ -109,11 +109,18 @@ img {
   margin: 5%;
   justify-content: top;
   font-size: small;
-  background-image: url(`https://image.tmdb.org/t/p/w500${movieData.poster_path}`);
 }
 
+.notPostr {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+iframe {
+  padding-left: 50px;
+  padding-top: 20px;
+}
 .movieInfo {
   padding: 20px;
-  
 }
 </style>

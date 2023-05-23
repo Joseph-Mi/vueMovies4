@@ -8,12 +8,13 @@ const movieData = ref(false);
 
 const getMovie = async () => {
   movieData.value = (
-    await axios.get(`https:api.themoviedb.org/3/movie/${movie.value}?api_key=${TMDB_API_KEY}&language=en-US&adult=false&append_to_response=videos`)
+    await axios.get(
+      `https:api.themoviedb.org/3/movie/${movie.value}?api_key=${TMDB_API_KEY}&language=en-US&adult=false&append_to_response=videos`
+    )
   ).data;
+  console.log(movieData.value);
 };
-
 // const trailers = movieData.resuls.filter((trailer) => trailer.type === `Trailer`).at(0).key;
-
 </script>
 
 <template>
@@ -43,11 +44,15 @@ const getMovie = async () => {
         <img :src="`https://image.tmdb.org/t/p/w500${movieData.poster_path}`" />
       </div>
 
-      <!-- <div v-if="movieData" class="movieTrailer">
+      <div v-if="movieData" class="movieTrailer">
         <iframe
-          :src="`https://www.youtube.com/embed/${trailers}`"
-        ></iframe>
-      </div> -->
+          :src="`https://www.youtube.com/embed/${
+            movieData.videos.results
+              .filter((trailer) => trailer.type === `Trailer`)
+              .at(0).key
+          }`"
+        />
+      </div>
 
       <div class="notPoster">
         <div v-if="movieData" class="movieInfo">

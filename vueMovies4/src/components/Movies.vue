@@ -44,16 +44,6 @@ const getMovie = async () => {
         <img :src="`https://image.tmdb.org/t/p/w500${movieData.poster_path}`" />
       </div>
 
-      <div v-if="movieData" class="movieTrailer">
-        <iframe
-          :src="`https://www.youtube.com/embed/${
-            movieData.videos.results
-              .filter((trailer) => trailer.type === `Trailer`)
-              .at(0).key
-          }`"
-        />
-      </div>
-
       <div class="notPoster">
         <div v-if="movieData" class="movieInfo">
           <h1>Movie Title: {{ movieData.title }}</h1>
@@ -65,6 +55,16 @@ const getMovie = async () => {
           <h4>Based on {{ movieData.vote_count }} ratings</h4>
           <h4>Polularity Rating: {{ movieData.popularity }}</h4>
         </div>
+
+        <div v-if="movieData" class="movieTrailer">
+        <iframe
+          :src="`https://www.youtube.com/embed/${
+            movieData.videos.results
+              .filter((trailer) => trailer.type === `Trailer`)
+              .at(0).key
+          }`"
+        />
+      </div>
       </div>
     </div>
   </div>
@@ -105,8 +105,8 @@ h1 {
 
 img {
   margin-top: 7%;
-  width: 350px;
   height: 500px;
+  aspect-ratio: 11/16;
 }
 
 .movieTile {
@@ -116,14 +116,23 @@ img {
   font-size: small;
 }
 
-.notPostr {
+.notPoster {
+  margin-left: 50px;
   display: flex;
   flex-wrap: wrap;
 }
 
 iframe {
-  padding-left: 50px;
-  padding-top: 20px;
+  margin-left: 20px;
+  margin-top: 20px;
+  height: 250px;
+  aspect-ratio: 16/9;
+}
+
+button {
+  border-radius: 5%;
+  border-width: 2px;
+  border-color: rgb(200, 78, 78);
 }
 .movieInfo {
   padding: 20px;

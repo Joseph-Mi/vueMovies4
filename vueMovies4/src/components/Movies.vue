@@ -57,14 +57,14 @@ const getMovie = async () => {
         </div>
 
         <div v-if="movieData" class="movieTrailer">
-        <iframe
-          :src="`https://www.youtube.com/embed/${
-            movieData.videos.results
-              .filter((trailer) => trailer.type === `Trailer`)
-              .at(0).key
-          }`"
-        />
-      </div>
+          <iframe
+            :src="`https://www.youtube.com/embed/${
+              movieData.videos.results
+                .filter((trailer) => trailer.type === `Trailer`)
+                .at(0).key
+            }`"
+          />
+        </div>
       </div>
     </div>
   </div>
